@@ -3,5 +3,5 @@ package br.com.larrydev.movieflix.controller.request;
 import lombok.Builder;
 
 @Builder
-public record CategoryRequest(String name) {
+public record StreamingRequest(String name) {
 }
