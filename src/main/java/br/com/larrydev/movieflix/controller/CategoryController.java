@@ -28,4 +28,9 @@ public class CategoryController {
         Category createdCategory = categoryService.createCategory(category);
         return ResponseEntity.ok().body(createdCategory);
     }
+
+    @GetMapping(value = "{id}")
+    public ResponseEntity<Category> getCategory(@PathVariable Long id) {
+        return ResponseEntity.ok().body(categoryService.getCategoryById(id));
+    }
 }
