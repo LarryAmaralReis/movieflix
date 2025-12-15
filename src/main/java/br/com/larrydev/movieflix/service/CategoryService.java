@@ -5,6 +5,7 @@ import br.com.larrydev.movieflix.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CategoryService {
@@ -23,7 +24,7 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
-    public Category getCategoryById(Long id) {
-        return categoryRepository.findById(id).orElse(null);
+    public Optional<Category> getCategoryById(Long id) {
+        return categoryRepository.findById(id);
     }
 }

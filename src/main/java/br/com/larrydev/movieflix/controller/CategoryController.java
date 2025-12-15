@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/movieflix/category")
@@ -31,6 +32,8 @@ public class CategoryController {
 
     @GetMapping(value = "{id}")
     public ResponseEntity<Category> getCategory(@PathVariable Long id) {
-        return ResponseEntity.ok().body(categoryService.getCategoryById(id));
+        Optional<Category> optCategory = categoryService.getCategoryById(id);
+        return optCategory.map(category -> ResponseEntity.ok().body(category))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
