@@ -4,14 +4,12 @@ import br.com.larrydev.movieflix.entity.Category;
 import br.com.larrydev.movieflix.repository.CategoryRepository;
 import br.com.larrydev.movieflix.service.CategoryService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/movie/category")
+@RequestMapping("/movieflix/category")
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -23,5 +21,11 @@ public class CategoryController {
     @GetMapping
     public ResponseEntity<List<Category>> getAllCategories() {
         return ResponseEntity.ok().body(categoryService.getAllCategories());
+    }
+
+    @PostMapping
+    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+        Category createdCategory = categoryService.createCategory(category);
+        return ResponseEntity.ok().body(createdCategory);
     }
 }
