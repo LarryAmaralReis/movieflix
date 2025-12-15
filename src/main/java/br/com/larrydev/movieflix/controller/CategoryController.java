@@ -1,12 +1,14 @@
 package br.com.larrydev.movieflix.controller;
 
-import br.com.larrydev.movieflix.entity.Category;
+import br.com.larrydev.movieflix.controller.request.CategoryRequest;
+import br.com.larrydev.movieflix.controller.response.CategoryResponse;
+import br.com.larrydev.movieflix.mapper.CategoryMapper;
 import br.com.larrydev.movieflix.service.CategoryService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/movieflix/category")
@@ -19,20 +21,29 @@ public class CategoryController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Category>> getAllCategories() {
-        return ResponseEntity.ok().body(categoryService.getAllCategories());
+    public ResponseEntity<List<CategoryResponse>> getAllCategories() {
+        List<CategoryResponse> categoryResponses = categoryService.getAllCategories()
+                .stream()
+                .map(CategoryMapper::toCategoryResponse)
+                .toList();
+        return ResponseEntity.ok().body(categoryResponses);
     }
 
     @PostMapping
-    public ResponseEntity<Category> postCategory(@RequestBody Category category) {
-        Category createdCategory = categoryService.createCategory(category);
-        return ResponseEntity.ok().body(createdCategory);
+    public ResponseEntity<CategoryResponse> postCategory(@RequestBody CategoryRequest request) {
+        CategoryResponse createdCategory = CategoryMapper
+                .toCategoryResponse(categoryService
+                        .createCategory(CategoryMapper
+                                .toCategory(request)
+                        )
+                );
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdCategory);
     }
 
     @GetMapping(value = "{id}")
-    public ResponseEntity<Category> getCategory(@PathVariable Long id) {
+    public ResponseEntity<CategoryResponse> getCategory(@PathVariable Long id) {
         return categoryService.getCategoryById(id)
-                .map(category -> ResponseEntity.ok().body(category))
+                .map(category -> ResponseEntity.ok().body(CategoryMapper.toCategoryResponse(category)))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
