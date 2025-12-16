@@ -47,6 +47,13 @@ public class MovieController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @PutMapping(value = "{id}")
+    public ResponseEntity<MovieResponse> putMovie(@PathVariable Long id, @RequestBody MovieRequest request) {
+        return movieService.updateMovie(id, MovieMapper.toMovie(request))
+                .map(updatedMovie -> ResponseEntity.ok().body(MovieMapper.toMovieResponse(updatedMovie)))
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     @DeleteMapping(value = "{id}")
     public ResponseEntity<?> deleteMovie(@PathVariable Long id) {
         return movieService.getMovieById(id)
@@ -55,5 +62,14 @@ public class MovieController {
                     return ResponseEntity.noContent().build();
                 })
                 .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<MovieResponse>> findByCategory(@RequestParam("category") Long category) {
+        List<MovieResponse> movieResponses = movieService.findByCategory(category)
+                .stream()
+                .map(MovieMapper::toMovieResponse)
+                .toList();
+        return ResponseEntity.ok().body(movieResponses);
     }
 }
