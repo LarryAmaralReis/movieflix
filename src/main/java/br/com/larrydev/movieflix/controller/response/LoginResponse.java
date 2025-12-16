@@ -1,4 +1,7 @@
 package br.com.larrydev.movieflix.controller.response;
 
-public record LoginResponse() {
+import lombok.Builder;
+
+@Builder
+public record LoginResponse(String token) {
 }
