@@ -1,4 +1,10 @@
 package br.com.larrydev.movieflix.controller.response;
 
-public record UserResponse() {
+import lombok.Builder;
+
+@Builder
+public record UserResponse(
+        Long id,
+        String name,
+        String email) {
 }

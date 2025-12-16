@@ -1,4 +1,11 @@
 package br.com.larrydev.movieflix.controller.request;
 
-public record UserRequest() {
+import lombok.Builder;
+
+@Builder
+public record UserRequest(
+        String name,
+        String email,
+        String password
+) {
 }
