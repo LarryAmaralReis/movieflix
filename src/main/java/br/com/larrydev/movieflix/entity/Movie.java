@@ -46,12 +46,14 @@ public class Movie {
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id")
     )
-    private List<Category> categories;
+//    @Builder.Default
+    private List<Category> categories /*= new ArrayList<>()*/;
 
     @ManyToMany
     @JoinTable(name = "tb_movie_streaming",
             joinColumns = @JoinColumn(name = "movie_id"),
             inverseJoinColumns = @JoinColumn(name = "streaming_id")
     )
-    private List<Streaming> streamings;
+//    @Builder.Default
+    private List<Streaming> streamings /*= new ArrayList<>()*/;
 }
